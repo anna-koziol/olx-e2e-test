@@ -4,7 +4,8 @@ module.exports = defineConfig({
   e2e: {
     defaultCommandTimeout: 6000,
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      on("before:run", (details) => {});
     },
+    experimentalInteractiveRunEvents: true,
   },
 });

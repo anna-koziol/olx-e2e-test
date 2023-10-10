@@ -2,8 +2,11 @@
 
 declare namespace Cypress {
   interface Chainable {
-    getByData(dataTestAttribute: string): Chainable<JQuery<HTMLElement>>;
-    randomize(amountElemets: number): number;
+    getByData(selector: string): Chainable<JQuery<HTMLElement>>;
+    getAndCheckVisible(
+      selector: string,
+      isHTMLSelector: boolean
+    ): Chainable<JQuery<HTMLElement>>;
   }
 }
 
@@ -11,7 +14,8 @@ Cypress.Commands.add("getByData", (selector) => {
   return cy.get(`[data-cy=${selector}]`);
 });
 
-Cypress.Commands.add("randomize", (limit) => {
-  const randomNumber = Math.floor(Math.random() * limit);
-  return randomNumber;
+Cypress.Commands.add("getAndCheckVisible", (selector, isHTMLSelector) => {
+  return isHTMLSelector
+    ? cy.get(`${selector}`).should("be.visible")
+    : cy.getByData(`${selector}`).should("be.visible");
 });
